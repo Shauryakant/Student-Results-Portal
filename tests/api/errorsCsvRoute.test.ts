@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
-import { GET, sanitizeCsvCell } from '@/app/api/imports/[id]/errors.csv/route';
+import { GET } from '@/app/api/imports/[id]/errors.csv/route';
+import { sanitizeCsvCell } from '@/lib/import/csvSanitize';
 import { NextRequest } from 'next/server';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { MongoClient, ObjectId } from 'mongodb';

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { executeImport } from '@/lib/import/importService';
 
-export const MAX_UPLOAD_SIZE = 5 * 1024 * 1024; // 5 MB
+const MAX_UPLOAD_SIZE = 5 * 1024 * 1024; // 5 MB
 
 export async function POST(request: NextRequest) {
   try {
