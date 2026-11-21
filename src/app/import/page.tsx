@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { ImportClient } from './ImportClient';
 
 export const metadata: Metadata = {
   title: 'Import Results | Student Results Portal',
@@ -7,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function ImportPage() {
   return (
-    <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8">
+    <main className="mx-auto max-w-6xl px-4 sm:px-6 py-8">
       <div className="mb-6">
         <h1 className="text-2xl font-bold tracking-tight text-slate-900">
           Import student results
@@ -17,9 +18,7 @@ export default function ImportPage() {
         </p>
       </div>
 
-      <div id="import-container" className="space-y-6">
-        {/* Dropzone & components will be mounted here */}
-      </div>
-    </div>
+      <ImportClient />
+    </main>
   );
 }
