@@ -39,7 +39,7 @@ export function StudentReportView({ student }: StudentReportViewProps) {
   return (
     <div className="space-y-6 print:space-y-4">
       {/* Back button & top bar - hidden in print */}
-      <div className="flex items-center justify-between no-print">
+      <div className="flex items-center justify-between no-print print:hidden">
         <Link
           href="/students"
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900 transition-colors"

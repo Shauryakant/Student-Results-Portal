@@ -10,7 +10,7 @@ export function Navbar() {
   const isStudentsActive = pathname.startsWith('/students');
 
   return (
-    <header className="sticky top-0 z-30 border-b border-slate-200 bg-white">
+    <header className="sticky top-0 z-30 border-b border-slate-200 bg-white print:hidden">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 sm:px-6 h-16">
         <Link
           href="/import"
