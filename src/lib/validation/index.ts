@@ -5,3 +5,4 @@ export * from './email';
 export * from './dateOfBirth';
 export * from './gradeAndSection';
 export * from './marks';
+export * from './rowValidator';
