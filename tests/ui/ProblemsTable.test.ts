@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { formatProblemMessage } from '@/components/ProblemsTable';
+import { formatProblemMessage, getProblemBadgeColor } from '@/components/ProblemsTable';
 import { ProblemReport } from '@/lib/validation/types';
 
 describe('formatProblemMessage', () => {
@@ -29,5 +29,13 @@ describe('formatProblemMessage', () => {
     expect(formatProblemMessage(prob)).toBe(
       'Duplicate of an earlier row (DUPLICATE_ID)',
     );
+  });
+
+  it('assigns specific color classes for error codes', () => {
+    expect(getProblemBadgeColor('DUPLICATE_ID')).toContain('amber');
+    expect(getProblemBadgeColor('WRONG_FIELD_COUNT')).toContain('rose');
+    expect(getProblemBadgeColor('OUT_OF_RANGE')).toContain('orange');
+    expect(getProblemBadgeColor('INVALID_FORMAT')).toContain('purple');
+    expect(getProblemBadgeColor('MISSING_REQUIRED')).toContain('red');
   });
 });
