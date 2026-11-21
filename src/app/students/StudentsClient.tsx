@@ -118,13 +118,98 @@ export function StudentsClient() {
         onClearSearch={handleClearSearch}
       />
 
+      {/* Table & states */}
       {isLoading ? (
-        <div className="p-12 text-center text-slate-500 bg-white rounded-xl border border-slate-200">
-          Loading students...
+        <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-2xs">
+          <div className="p-4 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
+            <div className="h-4 w-32 bg-slate-200 rounded animate-pulse" />
+            <div className="h-4 w-20 bg-slate-200 rounded animate-pulse" />
+          </div>
+          <div className="divide-y divide-slate-100 p-2">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="flex items-center justify-between p-4 animate-pulse">
+                <div className="flex items-center gap-4">
+                  <div className="h-4 w-24 bg-slate-200 rounded" />
+                  <div className="h-4 w-40 bg-slate-200 rounded" />
+                </div>
+                <div className="flex items-center gap-8">
+                  <div className="h-4 w-12 bg-slate-200 rounded" />
+                  <div className="h-4 w-12 bg-slate-200 rounded" />
+                  <div className="h-4 w-16 bg-slate-200 rounded" />
+                  <div className="h-5 w-8 bg-slate-200 rounded-md" />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       ) : error ? (
-        <div className="p-6 text-center text-rose-600 bg-rose-50 rounded-xl border border-rose-200">
-          {error}
+        <div className="p-8 text-center bg-rose-50 rounded-xl border border-rose-200">
+          <span className="text-3xl">⚠️</span>
+          <h3 className="text-base font-semibold text-rose-900 mt-2">
+            Failed to load students
+          </h3>
+          <p className="text-sm text-rose-700 mt-1 max-w-md mx-auto">{error}</p>
+          <button
+            type="button"
+            onClick={fetchStudents}
+            className="mt-4 rounded-lg bg-rose-600 px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-rose-500 transition-colors"
+          >
+            Retry
+          </button>
+        </div>
+      ) : students.length === 0 ? (
+        <div className="p-12 text-center bg-white rounded-xl border border-slate-200 shadow-2xs">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-500 mb-3 text-xl">
+            🔍
+          </div>
+          {currentSearch ? (
+            <>
+              <h3 className="text-base font-semibold text-slate-900">
+                No students match &ldquo;{currentSearch}&rdquo;
+              </h3>
+              <p className="text-sm text-slate-500 mt-1 max-w-sm mx-auto">
+                No students were found matching your search. Check the spelling or clear the filter to see all students.
+              </p>
+              <button
+                type="button"
+                onClick={handleClearSearch}
+                className="mt-4 rounded-lg bg-indigo-600 px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-indigo-500 transition-colors"
+              >
+                Clear search
+              </button>
+            </>
+          ) : currentGrade !== 'all' ? (
+            <>
+              <h3 className="text-base font-semibold text-slate-900">
+                No students in Class {currentGrade}
+              </h3>
+              <p className="text-sm text-slate-500 mt-1 max-w-sm mx-auto">
+                There are no students recorded for this class level.
+              </p>
+              <button
+                type="button"
+                onClick={() => handleGradeChange('all')}
+                className="mt-4 rounded-lg bg-indigo-600 px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-indigo-500 transition-colors"
+              >
+                Show all classes
+              </button>
+            </>
+          ) : (
+            <>
+              <h3 className="text-base font-semibold text-slate-900">
+                No students found
+              </h3>
+              <p className="text-sm text-slate-500 mt-1 max-w-sm mx-auto">
+                No student results have been imported into the portal yet.
+              </p>
+              <a
+                href="/import"
+                className="mt-4 inline-block rounded-lg bg-indigo-600 px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-indigo-500 transition-colors"
+              >
+                Go to Import
+              </a>
+            </>
+          )}
         </div>
       ) : (
         <>
