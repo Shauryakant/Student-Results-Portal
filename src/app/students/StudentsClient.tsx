@@ -4,6 +4,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { StudentTable, StudentListItem } from '@/components/StudentTable';
 import { StudentFilters } from '@/components/StudentFilters';
+import { Pagination } from '@/components/Pagination';
 
 interface PaginationMeta {
   page: number;
@@ -57,6 +58,14 @@ export function StudentsClient() {
 
   const handleClearSearch = () => {
     updateUrlParams({ search: '', page: '1' });
+  };
+
+  const handlePageChange = (newPage: number) => {
+    updateUrlParams({ page: String(newPage) });
+  };
+
+  const handleLimitChange = (newLimit: number) => {
+    updateUrlParams({ limit: String(newLimit), page: '1' });
   };
 
   const fetchStudents = useCallback(async () => {
@@ -118,7 +127,18 @@ export function StudentsClient() {
           {error}
         </div>
       ) : (
-        <StudentTable students={students} />
+        <>
+          <StudentTable students={students} />
+          {pagination.totalPages > 1 && (
+            <Pagination
+              currentPage={pagination.page}
+              totalPages={pagination.totalPages}
+              limit={pagination.limit}
+              onPageChange={handlePageChange}
+              onLimitChange={handleLimitChange}
+            />
+          )}
+        </>
       )}
     </div>
   );
