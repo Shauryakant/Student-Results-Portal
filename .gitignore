@@ -32,5 +32,7 @@ pnpm-debug.log*
 # Confidential sample data outside test fixtures
 /students_sample.csv
 /students_small.csv
+/students_seed*.csv
+/students_generated*.csv
 /*.pdf
 /SAMPLE_PACK_README.md
