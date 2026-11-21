@@ -1,2 +1,1 @@
-// Database library entry point
-export {};
+export * from './mongodb';
