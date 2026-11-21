@@ -7,7 +7,8 @@ export default function HomePage() {
         Student Results Portal
       </h1>
       <p className="text-slate-600 mb-6 max-w-md">
-        Upload student grade sheets, review validation errors, and explore student performance reports.
+        Upload student grade sheets, review validation errors, and explore student performance
+        reports.
       </p>
       <div className="flex gap-4">
         <Link
