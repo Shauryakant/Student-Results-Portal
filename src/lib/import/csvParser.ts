@@ -19,6 +19,17 @@ export interface CsvParseResult {
 }
 
 /**
+ * Checks whether a buffer represents binary data (e.g. contains null bytes).
+ */
+export function isBinaryBuffer(buf: Buffer): boolean {
+  const len = Math.min(buf.length, 1024);
+  for (let i = 0; i < len; i++) {
+    if (buf[i] === 0) return true;
+  }
+  return false;
+}
+
+/**
  * Checks whether all fields in a row are completely empty.
  */
 export function isAllEmptyRow(fields: string[]): boolean {
@@ -37,6 +48,50 @@ export function isAllEmptyRow(fields: string[]): boolean {
 export async function parseCsv(
   input: string | Buffer | Readable,
 ): Promise<CsvParseResult> {
+  if (Buffer.isBuffer(input)) {
+    if (input.length === 0) {
+      return {
+        headerAnalysis: {
+          isValid: false,
+          rawColumns: [],
+          normalizedColumns: [],
+          columnIndexMap: new Map(),
+          missingColumns: [],
+          error: 'File is empty',
+        },
+        rows: [],
+      };
+    }
+
+    if (isBinaryBuffer(input)) {
+      return {
+        headerAnalysis: {
+          isValid: false,
+          rawColumns: [],
+          normalizedColumns: [],
+          columnIndexMap: new Map(),
+          missingColumns: [],
+          error: 'Invalid CSV file: binary file detected',
+        },
+        rows: [],
+      };
+    }
+  } else if (typeof input === 'string') {
+    if (input.trim() === '') {
+      return {
+        headerAnalysis: {
+          isValid: false,
+          rawColumns: [],
+          normalizedColumns: [],
+          columnIndexMap: new Map(),
+          missingColumns: [],
+          error: 'File is empty',
+        },
+        rows: [],
+      };
+    }
+  }
+
   const stream: Readable =
     typeof input === 'string' || Buffer.isBuffer(input)
       ? Readable.from(input)
