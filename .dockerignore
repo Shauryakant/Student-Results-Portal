@@ -1,0 +1,33 @@
+# Git and IDE
+.git
+.gitignore
+.vscode
+.idea
+
+# Dependencies and build artifacts
+node_modules
+.next
+coverage
+build
+dist
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Environment and sensitive data
+.env
+.env*.local
+*.pem
+
+# Test fixtures and generated files
+tests
+*.pdf
+students_sample.csv
+students_small.csv
+students_seed*.csv
+students_generated*.csv
+SAMPLE_PACK_README.md
+
+# Documentation not needed in image
+*.md
+!README.md
