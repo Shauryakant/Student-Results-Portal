@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { StudentTable, StudentListItem } from '@/components/StudentTable';
+import { StudentFilters } from '@/components/StudentFilters';
 
 interface PaginationMeta {
   page: number;
@@ -29,7 +30,34 @@ export function StudentsClient() {
   const currentPage = parseInt(searchParams.get('page') || '1', 10);
   const currentLimit = parseInt(searchParams.get('limit') || '25', 10);
   const currentSearch = searchParams.get('search') || '';
-  const currentGrade = searchParams.get('grade') || '';
+  const currentGrade = searchParams.get('grade') || 'all';
+
+  const updateUrlParams = useCallback(
+    (updates: Record<string, string | null>) => {
+      const params = new URLSearchParams(searchParams.toString());
+      for (const [key, val] of Object.entries(updates)) {
+        if (val === null || val === '' || (key === 'grade' && val === 'all')) {
+          params.delete(key);
+        } else {
+          params.set(key, val);
+        }
+      }
+      router.push(`${pathname}?${params.toString()}`);
+    },
+    [router, pathname, searchParams],
+  );
+
+  const handleSearchChange = (newSearch: string) => {
+    updateUrlParams({ search: newSearch, page: '1' });
+  };
+
+  const handleGradeChange = (newGrade: string) => {
+    updateUrlParams({ grade: newGrade, page: '1' });
+  };
+
+  const handleClearSearch = () => {
+    updateUrlParams({ search: '', page: '1' });
+  };
 
   const fetchStudents = useCallback(async () => {
     setIsLoading(true);
@@ -72,6 +100,14 @@ export function StudentsClient() {
           </p>
         </div>
       </div>
+
+      <StudentFilters
+        search={currentSearch}
+        grade={currentGrade}
+        onSearchChange={handleSearchChange}
+        onGradeChange={handleGradeChange}
+        onClearSearch={handleClearSearch}
+      />
 
       {isLoading ? (
         <div className="p-12 text-center text-slate-500 bg-white rounded-xl border border-slate-200">
