@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 import { FileDropzone } from '@/components/FileDropzone';
+import { ImportSummaryCards } from '@/components/ImportSummaryCards';
+import { ProblemsTable } from '@/components/ProblemsTable';
 import { ProblemReport } from '@/lib/validation/types';
 
 export interface ImportSummaryResponse {
@@ -22,10 +24,9 @@ export interface ImportSummaryResponse {
 
 interface ImportClientProps {
   children?: React.ReactNode;
-  renderResults?: (summary: ImportSummaryResponse, onReset: () => void) => React.ReactNode;
 }
 
-export function ImportClient({ renderResults }: ImportClientProps) {
+export function ImportClient({}: ImportClientProps = {}) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -163,8 +164,17 @@ export function ImportClient({ renderResults }: ImportClientProps) {
         </div>
       )}
 
-      {/* Results slot */}
-      {summary && renderResults && renderResults(summary, handleReset)}
+      {/* Results view */}
+      {summary && (
+        <div className="space-y-6">
+          <ImportSummaryCards summary={summary} onReset={handleReset} />
+          <ProblemsTable
+            importId={summary.importId}
+            problems={summary.problems}
+            totalProblemsCount={summary.problemsCount}
+          />
+        </div>
+      )}
     </div>
   );
 }
